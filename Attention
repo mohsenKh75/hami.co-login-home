@@ -1,5 +1,10 @@
 # To access the Home page you have to enter the right emails and passwords.
-# You can find these Emails and Password in the file mockUsers.js.
+# You can find these Emails and Password in the file test-hami/src/services/mockUsers.js
+
+email: "hami@gmail.com", password: "1234"
+email: "hami@gmail.com", password: "1234" 
+email: "mohsen@gmail.com", password: "7777"
+
 # I used MUI for styling and design.
 # I used redux for state management.
 # I used axios for handling APIs.
