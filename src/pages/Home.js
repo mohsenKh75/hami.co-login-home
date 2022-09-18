@@ -6,12 +6,15 @@ import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getPersons } from "../store/personsSlice";
 import { useNavigate } from "react-router-dom";
+import useDebounce from "../components/hooks/useDebounce";
 
 function Home({ classes }) {
   const navigate = useNavigate();
 
   const [searchName, setSearchName] = useState("");
+  const debouncedValue = useDebounce(searchName, 500);
   const [searchData, setSearchData] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [page, setPage] = useState(1);
 
   const dispatch = useDispatch();
@@ -23,14 +26,29 @@ function Home({ classes }) {
   }, [isLoggedIn]);
 
   const onChange = (e) => {
-    const foundItems = persons?.filter((person) =>
-      person.name.toLowerCase().includes(e.target.value)
-    );
+    /* let foundItems = persons?.filter((person) =>
+      person.name.toLowerCase().includes(searchName)
+    ); */
 
     setSearchName(e.target.value);
-    setSearchData(e.target.value ? foundItems : []);
   };
-
+  const getNames = (search) => {
+    let foundItems = persons?.filter((person) =>
+      person.name.toLowerCase().includes(search)
+    );
+    setSearchData(search ? foundItems : []);
+  };
+  useEffect(() => {
+    if (debouncedValue) {
+      setIsSearching(true);
+      getNames(debouncedValue).then((result) => {
+        setIsSearching(false);
+        setSearchData(result);
+      });
+    } else {
+      setSearchData([]);
+    }
+  }, [debouncedValue]);
   useEffect(() => {
     if (!persons) {
       dispatch(getPersons());
