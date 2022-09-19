@@ -26,17 +26,14 @@ function Home({ classes }) {
   }, [isLoggedIn]);
 
   const onChange = (e) => {
-    /* let foundItems = persons?.filter((person) =>
-      person.name.toLowerCase().includes(searchName)
-    ); */
-
     setSearchName(e.target.value);
   };
-  const getNames = (search) => {
+  // this function takes the debounced value.
+  const getNames = (debouncedSearch) => {
     let foundItems = persons?.filter((person) =>
-      person.name.toLowerCase().includes(search)
+      person.name.toLowerCase().includes(debouncedSearch)
     );
-    setSearchData(search ? foundItems : []);
+    setSearchData(debouncedSearch ? foundItems : []);
   };
   useEffect(() => {
     if (debouncedValue) {
