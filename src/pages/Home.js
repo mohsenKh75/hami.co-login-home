@@ -41,10 +41,8 @@ function Home({ classes }) {
   useEffect(() => {
     if (debouncedValue) {
       setIsSearching(true);
-      getNames(debouncedValue).then((result) => {
-        setIsSearching(false);
-        setSearchData(result);
-      });
+      getNames(debouncedValue);
+      setIsSearching(false);
     } else {
       setSearchData([]);
     }
